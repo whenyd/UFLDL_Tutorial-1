@@ -10,7 +10,7 @@ function [] = checkNumericalGradient()
 x = [4; 10];
 [value, grad] = simpleQuadraticFunction(x);
 
-% Use your code to numerically compute the gradient of simpleQuadraticFunction at x.
+% Use your code to numerically compute the gradisdfsdfdsfsdent of simpleQuadraticFunction at x.
 % (The notation "@simpleQuadraticFunction" denotes a pointer to a function.)
 numgrad = computeNumericalGradient(@simpleQuadraticFunction, x);
 
