@@ -1,4 +1,4 @@
-function [activation] = feedForwardAutoencoder(theta, hiddenSize, visibleSize, data)
+function [activation] = feedForwardAutoencoder(theta, hiddenSize, inputSize, data)
 
 % theta: trained weights from the autoencoder
 % visibleSize: the number of input units (probably 64) 
@@ -8,15 +8,16 @@ function [activation] = feedForwardAutoencoder(theta, hiddenSize, visibleSize, d
 % We first convert theta to the (W1, W2, b1, b2) matrix/vector format, so that this 
 % follows the notation convention of the lecture notes. 
 
-W1 = reshape(theta(1:hiddenSize*visibleSize), hiddenSize, visibleSize);
-b1 = theta(2*hiddenSize*visibleSize+1:2*hiddenSize*visibleSize+hiddenSize);
+W1 = reshape(theta(1:hiddenSize*inputSize), hiddenSize, inputSize);
+b1 = theta(2*hiddenSize*inputSize+1:2*hiddenSize*inputSize+hiddenSize);
 
 %% ---------- YOUR CODE HERE --------------------------------------
 %  Instructions: Compute the activation of the hidden layer for the Sparse Autoencoder.
-
+z2 = W1 * data + repmat(b1, 1, size(data,2));
+a2 = sigmoid(z2);
 
 %-------------------------------------------------------------------
-
+activation = a2;
 end
 
 %-------------------------------------------------------------------
