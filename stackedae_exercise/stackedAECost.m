@@ -61,7 +61,20 @@ groundTruth = full(sparse(labels, 1:M, 1));
 %                match exactly that of the size of the matrices in stack.
 %
 
+%forward to compute cost:
+z1 = stack{1}.w * data + repmat(stack{1}.b,1, size(data,2));
+a1 = sigmoid(z1);
 
+z2 = stack{2}.w * a1 + repmat(stack{2}.b, 1, size(a1,2));
+a2 = sigmoid(z2);
+
+softmaxModel.optTheta = softmaxTheta;
+[pred] = softmaxPredict(softmaxModel, a2);
+
+
+cost = 
+
+%backward to compute gradient
 
 
 
