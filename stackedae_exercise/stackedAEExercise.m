@@ -179,6 +179,11 @@ stackedAETheta = [ saeSoftmaxOptTheta ; stackparams ];
 
 
 
+[stackedAEOptTheta, cost] = minFunc( @(p) stackedAECost(p, inputSize, hiddenSizeL1, ...
+                                              numClasses, netconfig, ...
+                                              lambda, trainData, trainLabels), ...
+                              stackedAETheta, options);
+
 
 
 
