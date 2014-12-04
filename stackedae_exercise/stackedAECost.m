@@ -61,8 +61,6 @@ groundTruth = full(sparse(labels, 1:numCases, 1));
 %                match exactly that of the size of the matrices in stack.
 %
 
-%forward to compute cost:
-z1 = stack{1}.w * data + repmat(stack{1}.b,1, size(data,2));
 depth = numel(stack);
 z = cell(depth+1,1);
 a = cell(depth+1,1);
