@@ -1,4 +1,5 @@
 function convolvedFeatures = cnnConvolve(patchDim, numFeatures, images, W, b, ZCAWhite, meanPatch)
+%cnnConvolve(patchDim, hiddenSize, convImages, W, b, ZCAWhite, meanPatch);
 %cnnConvolve Returns the convolution of the features given by W and b with
 %the given images
 %
@@ -39,9 +40,8 @@ convolvedFeatures = zeros(numFeatures, numImages, imageDim - patchDim + 1, image
 % Precompute the matrices that will be used during the convolution. Recall
 % that you need to take into account the whitening and mean subtraction
 % steps
-features = images - repmat(meanPatch', size(W,1),1);
-
-displayColorNetwork( features');
+WT = W * ZCAWhite;  
+add = b - W * ZCAWhite * meanPatch;  
 
 % --------------------------------------------------------
 
@@ -56,7 +56,7 @@ for imageNum = 1:numImages
       % Obtain the feature (patchDim x patchDim) needed during the convolution
       % ---- YOUR CODE HERE ----
       feature = zeros(8,8); % You should replace this
-      feature = features(featureNum, imageDim * (channel -1) + 1 : imageDim * channel);
+      feature = reshape(WT(featureNum,patchDim*patchDim*(channel-1)+1:patchDim*patchDim*channel),patchDim,patchDim);
       
       % ------------------------
 
@@ -70,9 +70,10 @@ for imageNum = 1:numImages
       % be sure to do a 'valid' convolution
       % ---- YOUR CODE HERE ----
       
-      convolvedImage = conv2(im,feature,'valid') + convolvedImage;
+      convolvedImage = convolvedImage + conv2(im,feature,'valid');
       % ------------------------
 
+      %-------------------------
     end
     
     % Subtract the bias unit (correcting for the mean subtraction as well)
@@ -81,7 +82,7 @@ for imageNum = 1:numImages
 
     convolvedImage = convolvedImage + b(featureNum);
     
-    convolvedImage = sigmoid(convolvedImage);
+    convolvedImage = sigmoid(convolvedImage + add(featureNum));
     % ------------------------
     
     % The convolved feature is the sum of the convolved values for all channels
